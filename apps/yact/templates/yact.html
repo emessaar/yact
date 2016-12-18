@@ -1,0 +1,88 @@
+{% extends "layout.html" %}
+{% block title %}YACT{% endblock %}
+{% block content %}
+<div class="row">
+    <div class="span2">
+    </div>
+  <div class="span10">
+
+    <script type=text/javascript>
+      $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+    </script>
+    <script type=text/javascript>
+
+      $(function() {
+        $('button#cqlsend').on('click', function(e) {
+            var cql = $('input#cqlbox').val();
+            if (cql == 'clear') {
+              console.log('clear...')
+              e.preventDefault();
+              $("#cqldiv").html('');
+              $('input#cqlbox').val('')
+              return true;
+            } else {
+              $.ajax({
+                  url: '/yact',
+                  data: $('form#yactform').serialize(),
+                  type: 'POST',
+                  success: function(response) {
+                      //e.preventDefault();
+                      $('input[name="cql"]').val('')
+                      console.log(response);
+                       $("#cqldiv").append('<div>$ ' + response.cql + '</div>');
+                      $("#cqldiv").append(response.result);
+                      //$('.main-svg').css('background', 'black');
+                      $( "input#cql" ).focus();
+                      $('html, body').animate({
+                          scrollTop: $(document).height()
+                      }, 'slow');
+                  },
+                  error: function(error) {
+                      console.log(error);
+                  }
+              });
+            }
+            return false;
+        });
+      });
+    </script>
+    <div class="shell-body" style="font-size:16px;font-family:courier new;font-weight:bold">
+      <div class="page-header" style="background: #141414;color:white;font-size:16px;font-family:courier new;">
+         <h2><strong>YACT</strong><small> ...yet another charting tool</small></h2>
+      </div>
+      {% if filename %}
+        <script type="text/javascript">
+        $(function() {
+          $('#yupload').show().hide();
+          //$("#cqldiv").append('{{filename}} loaded');
+        });
+        </script>
+        <div>{{filename}} loaded
+        </div>
+      {% endif %}
+      <div id='formuploaddiv'>
+        <form action="{{url_for('yact')}}" name="yupload" id="yupload" method="post" enctype="multipart/form-data">
+          <input type="file" name="file">
+          <button class="btn btn-primary" name="btnupload" type="submit" value="upload">Upload</button>
+        </form>
+      </div>
+      <div id="cqldiv" name="cqldiv" style="font-size:16px;">
+      </div>
+      <div id='cmdlinediv'>
+        <form method="post" enctype="multipart/form-data" name="yactform" id="yactform" action="{{url_for('yact')}}" >
+          <table width="100%">
+            <tr>
+              <td width="2%"><label for="cql" style="font-size:16px;"">$&nbsp;</label></td>
+              <td>
+                  <input style="font-size:16px;border:none;outline:none;background-color:black;width:100%" type="text" name="cql" id="cqlbox" autocomplete="off">
+              </td>
+            </tr>
+          </table>
+          <div>
+            <button type="submit" class="btn btn-primary" id="cqlsend" style="display:none">run</button>
+          </div>
+        </form>
+      </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='style.css')}}">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="static/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
+        <link href="static/yact.css" rel="stylesheet" media="screen">
+        <script src="static/bootstrap/js/bootstrap.min.js"></script>
+        <script src="static/jquery/jquery.js"></script>
+        <script src="static/plotly/plotly.min.js"></script>
+        <title>{% block title %}{% endblock %} - tools, etc.</title>
+    </head>
+    <body>
+        <div class="container">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+              {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{category}} alert-dismissible fade in" role="alert">
+                    <!-- a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a -->
+                    {{message}}
+                     </div>
+                {% endfor %}
+              {% endif %}
+            {% endwith %}
+            {% block content %}{% endblock %}
+        </div>
+    </body>
+</html>
+

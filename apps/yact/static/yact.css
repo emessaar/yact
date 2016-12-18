@@ -1,0 +1,24 @@
+.shell-body {
+  margin: 0;
+  padding: 5px;
+  list-style: none;
+  background: #141414;
+  color: #45D40C;
+/*  font-family: 'Courier New';
+  font-size: 14px;
+*/  /*font-weight: bold;*/
+  /*line-height: 2.0em;*/
+
+  -webkit-border-bottom-right-radius: 3px;
+  -webkit-border-bottom-left-radius: 3px;
+  -moz-border-radius-bottomright: 3px;
+  -moz-border-radius-bottomleft: 3px;
+  border-bottom-right-radius: 3px;
+  border-bottom-left-radius: 3px;
+}
+
+.shell-header {
+  list-style: none;
+  background: #141414;
+  color: #45D40C;
+}
